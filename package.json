@@ -1,0 +1,23 @@
+{
+  "name": "socialmediabackend",
+  "version": "1.0.0",
+  "description": "Backend for Social Media Platform using MONGODB",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagicCrouton/socialMediaBackend.git"
+  },
+  "keywords": [
+    "social",
+    "media"
+  ],
+  "author": "Eugene Park",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MagicCrouton/socialMediaBackend/issues"
+  },
+  "homepage": "https://github.com/MagicCrouton/socialMediaBackend#readme"
+}
