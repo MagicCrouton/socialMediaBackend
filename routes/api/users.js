@@ -15,10 +15,10 @@ router.get('/:id',(req, res) => {
     user.findOne({ _id: req.params.id })
     .populate('thoughts')
     .populate('friends')
-      .then((user) =>
-        !user
+      .then((data) =>
+        !data
           ? res.status(404).json({ message: 'No User with that ID' })
-          : res.json(user)
+          : res.json(data)
       )
       .catch((err) => res.status(500).json(err));
   })
@@ -33,13 +33,15 @@ router.post('/createNewUser', (req, res) => {
       });
   })
 
-router.put('/updateUser/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     user.updateOne(
-        {_id: params.id},
+        {_id: req.params.id},
         req.body
         )
-      .then((updatedUser) => {
-        res.json(updatedUser)
+      .then((data) => {
+        !data
+        ? res.status(404).json({ message: 'No User with that ID' })
+        : res.json(data)
       })
       .catch((err) => {
         res.json(err)
@@ -47,9 +49,13 @@ router.put('/updateUser/:id', (req, res) => {
   })
 
 router.delete('/:id', async (req, res) => {
+    // let temp = await user.findById({_id: req.params.id})
+    // await thought.deleteMany({_id: {$in: temp.thoughts}})
     await user.deleteOne({_id: req.params.id})
     .then ((data)=> {
-      thought.deleteMany({_id: {$in: data.thoughts}})
+      !data
+      ? res.status(404).json({ message: 'No User with that ID' })
+      : res.json(data)
     })
     .then((data)=> res.json(data))
     .catch((err)=>res.json(err))

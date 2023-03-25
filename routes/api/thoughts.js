@@ -24,7 +24,7 @@ router.get('/:id',(req, res) => {
 // create new thought
 // sample json for creating new thought
 // {
-//   "thoughtText": "Here's a cool thought...",
+//   "thought_body": "Here's a cool thought...",
 //   "username": "lernantino",
 //   "userID": "5edff358a0fcb779aa7b118b"
 // }
@@ -49,12 +49,14 @@ router.post('/', async (req, res) => {
 
 // update thought by ID
 router.put('/:id', (req, res) => {
-    thought.findByIdAndUpdate(
-        {_id: params.id},
+    thought.updateOne(
+        {_id: req.params.id},
         req.body,
         )
       .then((thoughtUpdt) => {
-        res.json(thoughtUpdt)
+        !thoughtUpdt
+        ? res.status(404).json({ message: 'Nothing Here' })
+        : res.json(thoughtUpdt)
       })
       .catch((err) => {
         res.json(err)
@@ -67,11 +69,40 @@ router.delete('/:id', (req, res) => {
         {_id: params.id}
     )
       .then((data) => {
-        res.json(data)
+        !data
+        ? res.status(404).json({ message: 'Nothing Here' })
+        : res.json(data)
       })
       .catch((err) => {
         res.json(err)
       });
   })
+
+  // sample reaction post
+  // {
+  //   "reaction_body": "test reaction 1",
+  //   "username": "slightlyLessHappyHippo"
+  // }
+  // sample reaction delete
+  // {
+  // "reactionId": "641f822b073c5d3fc2c6203e"
+  // }
+
+  router.route('/:thoughtId/reactions')
+        .post(async (req, res) => {
+          await thought.updateOne(
+            {_id: req.params.thoughtId},
+            {$push: {reactions: req.body}})
+          .then((data)=> res.json(data))
+          .catch((err)=>res.json(err))
+        })
+        .delete(async (req, res)=> {
+          await thought.updateOne(
+            {_id: req.params.thoughtId},
+            {$pull:{reactions: { reactionId: req.body.reactionId }}}
+          )
+        .then((data)=> res.json(data))
+        .catch((err)=>res.json(err))
+        })
 
   module.exports = router;
