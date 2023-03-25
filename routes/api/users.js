@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const {user} = require('../../models');
+const {user, thought} = require('../../models');
 
 
 
 router.get('/', async (req, res) => {
-    await user.find()
+    await user.find({})
       .then((users) => {
         res.json(users)
       })
@@ -34,7 +34,7 @@ router.post('/createNewUser', (req, res) => {
   })
 
 router.put('/updateUser/:id', (req, res) => {
-    user.findByIdAndUpdate(
+    user.updateOne(
         {_id: params.id},
         req.body
         )
@@ -46,8 +46,13 @@ router.put('/updateUser/:id', (req, res) => {
       });
   })
 
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', async (req, res) => {
+    await user.deleteOne({_id: req.params.id})
+    .then ((data)=> {
+      thought.deleteMany({_id: {$in: data.thoughts}})
+    })
+    .then((data)=> res.json(data))
+    .catch((err)=>res.json(err))
 })
 
 // updating and delting friends from the users
