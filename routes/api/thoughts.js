@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {user, thought} = require('../../models');
+const {thought, user} = require('../../models');
 
 
 // get all thoughts
@@ -21,10 +21,20 @@ router.get('/:id',(req, res) => {
   })
 
 // create new thought
+// sample json for creating new thought
+// {
+//   "thoughtText": "Here's a cool thought...",
+//   "username": "lernantino",
+//   "userId": "5edff358a0fcb779aa7b118b"
+// }
 router.post('/', (req, res) => {
     thought.create(req.body)
       .then((thoughtRes) => {
-        res.json(thoughtRes)
+        user.findOneAndUpdate(
+          {_id: req.body.userID},
+          { $push: {thoughts: _id}},
+          {new: true}
+        )
       })
       .catch((err) => {
         res.json(err)

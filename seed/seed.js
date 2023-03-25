@@ -30,34 +30,12 @@ db.once('open', async () => {
       }
   ];
 
-  
-  const thoughts = [
-      {
-        thought_body: "I am Happy",
-        username: "happyHippo"
-      },
-      {
-          thought_body: "I am Angry",
-          username: "angryHippo"
-      },
-      {
-          thought_body: "I am Sad",
-          username: "SadHippo"
-      },
-      {
-        thought_body: "i am hungry",
-        username: "hungryHippo"
-      }
-  ]
 
   
   await user.collection.insertMany(users);
 
-  
-  await thought.collection.insertMany(thoughts);
 
   
   console.log(users);
-  console.log(thoughts);
   process.exit(0);
 });

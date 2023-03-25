@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const {user, thought} = require('../../models');
+const {user} = require('../../models');
 
 
 
 router.get('/', async (req, res) => {
-    await user.find().populate('thoughts')
+    await user.find()
       .then((users) => {
         res.json(users)
       })
@@ -13,6 +13,8 @@ router.get('/', async (req, res) => {
 
 router.get('/:id',(req, res) => {
     user.findOne({ _id: req.params.id })
+    .populate('thoughts')
+    .populate('friends')
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No User with that ID' })
