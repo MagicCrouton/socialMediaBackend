@@ -36,7 +36,7 @@ router.post('/createNewUser', (req, res) => {
   router.put('/updateUser/:id', (req, res) => {
     user.findByIdAndUpdate(
         {_id: params.id},
-        req.body,
+        req.body
         )
       .then((updatedUser) => {
         res.json(updatedUser)

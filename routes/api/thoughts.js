@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { json } = require('express');
 const {thought, user} = require('../../models');
 
 
@@ -25,17 +26,22 @@ router.get('/:id',(req, res) => {
 // {
 //   "thoughtText": "Here's a cool thought...",
 //   "username": "lernantino",
-//   "userId": "5edff358a0fcb779aa7b118b"
+//   "userID": "5edff358a0fcb779aa7b118b"
 // }
-router.post('/', (req, res) => {
-    thought.create(req.body)
-      .then((thoughtRes) => {
-        user.findOneAndUpdate(
+router.post('/', async (req, res) => {
+    await thought.create(req.body)
+      .then(async (thoughtRes) => {
+       return user.updateOne(
           {_id: req.body.userID},
-          { $push: {thoughts: _id}},
-          {new: true}
+          {$push: {thoughts: thoughtRes}}
         )
+        // console.log(thoughtRes)
+        // console.log(req.body.userID)
+        // return await user.findOne({_id: req.body.userID})
+        // .thoughts.push(thoughtRes)
+        // .save(done)
       })
+      .then((data) => res.json(data))
       .catch((err) => {
         res.json(err)
       });
