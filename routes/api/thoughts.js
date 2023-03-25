@@ -18,7 +18,7 @@ router.get('/:id',(req, res) => {
           ? res.status(404).json({ message: 'Nothing Here' })
           : res.json(thoughtRes)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => res.status(500).json(err)); 
   })
 
 // create new thought

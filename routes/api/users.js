@@ -23,7 +23,13 @@ router.get('/:id',(req, res) => {
       .catch((err) => res.status(500).json(err));
   })
 
-router.post('/createNewUser', (req, res) => {
+// sample new user post json body
+// {
+//     "username": "magicCrouton",
+//     "email": "e.park5336@gmail.com"
+// }
+
+router.post('/', (req, res) => {
     user.create(req.body)
       .then((user) => {
         res.json(user)
