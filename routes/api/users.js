@@ -33,7 +33,7 @@ router.post('/createNewUser', (req, res) => {
       });
   })
 
-  router.put('/updateUser/:id', (req, res) => {
+router.put('/updateUser/:id', (req, res) => {
     user.findByIdAndUpdate(
         {_id: params.id},
         req.body
@@ -46,4 +46,24 @@ router.post('/createNewUser', (req, res) => {
       });
   })
 
+router.delete('/:id', (req, res) => {
+
+})
+
+// updating and delting friends from the users
+router.route('/:userId/friends/:friendId')
+      .post(async (req, res) => {
+        let temp = await user.findOne({_id: req.params.friendId})
+        await user.updateOne({_id: req.params.userId},{$push: {friends: temp}})
+        .then((data)=> res.json(data))
+        .catch((err)=>res.json(err))
+      })
+      .delete(async (req, res)=> {
+        await user.updateOne(
+          {_id: req.params.userId},
+          {$pull:{friends: req.params.friendId}}
+        )
+      .then((data)=> res.json(data))
+      .catch((err)=>res.json(err))
+      })
   module.exports = router;
