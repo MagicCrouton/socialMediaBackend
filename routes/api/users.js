@@ -1,11 +1,13 @@
 const router = require('express').Router();
-const user = require('../../models/username');
+const {user, thought} = require('../../models');
 
 
 
-router.get('/', (req, res) => {
-    user.find()
-      .then((users) => res.json(users))
+router.get('/', async (req, res) => {
+    await user.find().populate('thoughts')
+      .then((users) => {
+        res.json(users)
+      })
       .catch((err) => res.status(500).json(err));
   })
 
