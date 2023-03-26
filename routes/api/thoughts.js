@@ -66,7 +66,7 @@ router.put('/:id', (req, res) => {
 // delete user by id need to add code to delete associated thoughts
 router.delete('/:id', (req, res) => {
     thought.findByIdAndDelete(
-        {_id: params.id}
+        {_id: req.params.id}
     )
       .then((data) => {
         !data

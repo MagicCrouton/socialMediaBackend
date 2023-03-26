@@ -36,6 +36,7 @@ a database must be established on a mongoDB server and a URI for that database m
 
 npm start and you are running off your local machine.
 
+  [![Watch the video](./Assets/Screenshot%202023-03-25%20204117.png)](https://drive.google.com/file/d/1qb0OBIocOrGdWr-ug4yMYe1hp5DZB6fC/view?usp=sharing)
 
 ## Contributing
 
